@@ -192,6 +192,89 @@ function renderDisguise() {
   }
 }
 
+// ========== Random text generators ==========
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function randomPara(topics, count = 4) {
+  const shuffled = [...topics].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, Math.min(count, shuffled.length)).join('</p><p class="doc-text">');
+}
+
+const marketTrends = [
+  'Artificial Intelligence Integration: Major technology companies are embedding AI capabilities across their product portfolios. Generative AI has emerged as a key differentiator, with enterprise adoption accelerating faster than previous technology cycles.',
+  'Cloud Migration Acceleration: The shift to cloud computing continues to gain momentum, with hybrid and multi-cloud strategies becoming the norm. Enterprise customers are increasingly prioritizing cloud-native solutions.',
+  'Cybersecurity Investment: Rising threat complexity and regulatory requirements are driving increased cybersecurity spending. Organizations are allocating larger portions of their IT budgets to security solutions.',
+  'Sustainability Initiatives: Environmental, social, and governance (ESG) considerations are becoming important factors in technology procurement decisions.',
+  'Edge Computing Growth: Processing data closer to the source is reducing latency and bandwidth costs. Edge computing deployments are expected to grow significantly across manufacturing, healthcare, and retail sectors.',
+  'Digital Transformation Acceleration: Companies across all industries are accelerating their digital transformation initiatives, driven by the need for operational efficiency and improved customer experiences.',
+  '5G Network Expansion: The rollout of 5G networks is enabling new use cases in IoT, autonomous vehicles, and remote surgery. Telecommunications companies are investing heavily in infrastructure.',
+  'Quantum Computing Advances: While still in early stages, quantum computing research is progressing rapidly. Major technology companies are investing in quantum hardware and software development.',
+  'Blockchain Beyond Crypto: Enterprise blockchain adoption is growing in supply chain management, healthcare records, and financial services. Distributed ledger technology is finding practical applications.',
+  'Remote Work Technology: The shift to hybrid and remote work models is driving demand for collaboration tools, virtual desktop infrastructure, and secure remote access solutions.',
+];
+
+const riskFactors = [
+  'Regulatory Changes: Evolving data protection regulations and antitrust scrutiny could impact business models and operating practices. Companies with significant market power face increased regulatory attention.',
+  'Supply Chain Disruptions: Geopolitical tensions and component shortages continue to pose risks to hardware-dependent businesses. Semiconductor supply constraints could affect product availability and pricing.',
+  'Talent Competition: The demand for skilled technology professionals, particularly in AI and cybersecurity, remains intense. Companies that fail to attract and retain top talent may struggle to maintain their competitive position.',
+  'Interest Rate Sensitivity: Rising interest rates could impact valuations of high-growth technology companies. Access to capital may become more constrained for early-stage ventures.',
+  'Geopolitical Risks: Trade tensions between major economies could disrupt global technology supply chains and market access. Companies with significant international exposure face heightened uncertainty.',
+  'Cybersecurity Threats: Increasing sophistication of cyber attacks poses risks to data security and business continuity. The average cost of a data breach continues to rise year over year.',
+  'Market Saturation: Key technology markets are becoming increasingly saturated, leading to margin compression and intensified competition. Companies must innovate continuously to maintain market share.',
+];
+
+const companyNews = [
+  'announced a strategic partnership to expand its cloud infrastructure footprint across the Asia-Pacific region',
+  'reported strong quarterly earnings, beating analyst expectations across all business segments',
+  'launched a new AI-powered product line aimed at enterprise customers',
+  'completed the acquisition of a promising startup in the machine learning space',
+  'secured a major contract with a Fortune 500 company for its cloud services',
+  'announced a share buyback program worth $10 billion',
+  'appointed a new CEO with extensive experience in the technology sector',
+  'opened a new research and development center focused on artificial intelligence',
+  'expanded its partnership with a leading cloud provider to offer integrated solutions',
+  'released its latest software update with significant performance improvements',
+];
+
+const projectUpdates = [
+  'Successfully deployed the new authentication service with zero downtime. User migration completed ahead of schedule.',
+  'Completed the database schema migration for the analytics module. Performance improvements exceeded targets.',
+  'Implemented caching layer for API responses. Average response time reduced by 40%. Cache hit rate at 85%.',
+  'Resolved 15 production bugs including 2 critical severity issues. Average resolution time improved from 48 hours to 12 hours.',
+  'Updated the data visualization library to the latest version. All existing dashboards validated for backward compatibility.',
+  'Completed the security audit of all external API integrations. No critical vulnerabilities found.',
+  'Deployed the new notification service. Delivery rate improved from 92% to 99.5%.',
+  'Migrated legacy data storage to the new distributed system. Data integrity verified across all shards.',
+  'Implemented automated backup system for critical data stores. Recovery time objective reduced to 15 minutes.',
+  'Completed the performance optimization sprint. Page load times improved by an average of 35%.',
+];
+
+const nextSprintItems = [
+  'Complete the database migration for the remaining legacy services',
+  'Implement the real-time notification service for critical system alerts',
+  'Begin technical design for the new analytics dashboard v2',
+  'Conduct security audit of all third-party API integrations',
+  'Deploy the automated backup system for production data stores',
+  'Optimize query performance for the reporting module',
+  'Implement rate limiting for the public API endpoints',
+  'Upgrade the monitoring and alerting infrastructure',
+  'Develop the migration plan for the legacy authentication system',
+  'Create comprehensive documentation for the new microservices architecture',
+];
+
+const bugFixes = [
+  'Fixed memory leak in data processing pipeline',
+  'Improved error handling for edge cases in the API layer',
+  'Security patches applied to authentication and authorization modules',
+  'Resolved race condition in concurrent data access patterns',
+  'Fixed UI rendering issue in Safari browser when using dark mode',
+  'Patched SQL injection vulnerability in the search functionality',
+  'Resolved timeout issue for large dataset export operations',
+  'Fixed incorrect sorting in the pagination component',
+  'Patched cross-site scripting vulnerability in user input handling',
+  'Resolved data consistency issue in the transaction processing pipeline',
+];
+
 function renderCompetitiveAnalysis(container) {
   const now = new Date().toISOString().split('T')[0];
   const items = settings.stocks.map((s, i) => {
@@ -219,7 +302,7 @@ function renderCompetitiveAnalysis(container) {
     <div class="doc-section">
       <div class="doc-section-title">1. Market Overview</div>
       <p class="doc-text">This report provides a comprehensive analysis of key market players in the technology sector. Data is compiled from the most recent quarterly filings, analyst reports, and real-time market data sources. All figures are in USD unless otherwise noted.</p>
-      <p class="doc-text">The global technology market continues to show resilience despite macroeconomic headwinds. Enterprise software spending remains robust, driven by digital transformation initiatives across industries. Cloud infrastructure services continue to be the primary growth driver, with artificial intelligence and machine learning capabilities becoming increasingly critical to competitive differentiation.</p>
+      <p class="doc-text">${randomPara(marketTrends, 2)}</p>
       <table class="data-table" style="margin-top: 16px;">
         <thead>
           <tr>
@@ -242,16 +325,11 @@ function renderCompetitiveAnalysis(container) {
     <div class="doc-section">
       <div class="doc-section-title">3. Market Trends & Outlook</div>
       <p class="doc-text">The competitive landscape is evolving rapidly, with several key trends shaping the market:</p>
-      <p class="doc-text">• Artificial Intelligence Integration: Major technology companies are embedding AI capabilities across their product portfolios. Generative AI has emerged as a key differentiator, with enterprise adoption accelerating faster than previous technology cycles. Companies that successfully integrate AI into existing workflows are seeing significant competitive advantages.</p>
-      <p class="doc-text">• Cloud Migration Acceleration: The shift to cloud computing continues to gain momentum, with hybrid and multi-cloud strategies becoming the norm. Enterprise customers are increasingly prioritizing cloud-native solutions that offer scalability, flexibility, and reduced total cost of ownership.</p>
-      <p class="doc-text">• Cybersecurity Investment: Rising threat complexity and regulatory requirements are driving increased cybersecurity spending. Organizations are allocating larger portions of their IT budgets to security solutions, creating opportunities for vendors with comprehensive security portfolios.</p>
-      <p class="doc-text">• Sustainability Initiatives: Environmental, social, and governance (ESG) considerations are becoming important factors in technology procurement decisions. Companies with strong sustainability credentials and transparent reporting are gaining preference among enterprise buyers.</p>
+      <p class="doc-text">${randomPara(marketTrends)}</p>
     </div>
     <div class="doc-section">
       <div class="doc-section-title">4. Risk Factors</div>
-      <p class="doc-text">• Regulatory Changes: Evolving data protection regulations and antitrust scrutiny could impact business models and operating practices. Companies with significant market power face increased regulatory attention.</p>
-      <p class="doc-text">• Supply Chain Disruptions: Geopolitical tensions and component shortages continue to pose risks to hardware-dependent businesses. Semiconductor supply constraints could affect product availability and pricing.</p>
-      <p class="doc-text">• Talent Competition: The demand for skilled technology professionals, particularly in AI and cybersecurity, remains intense. Companies that fail to attract and retain top talent may struggle to maintain their competitive position.</p>
+      <p class="doc-text">${randomPara(riskFactors)}</p>
     </div>
   `;
 }
@@ -281,12 +359,13 @@ function renderReleaseNotes(container) {
     const ver = p ? p.price.toFixed(2) : '---';
     const d = new Date(now);
     d.setDate(d.getDate() - i);
+    const fixes = [pick(bugFixes), pick(bugFixes), pick(bugFixes)].filter((v, idx, a) => a.indexOf(v) === idx);
     return `<div style="margin-bottom: 24px;">
       <div style="font-size: 15px; font-weight: 600; color: var(--accent);">v${ver} (Build ${d.toISOString().split('T')[0]})</div>
       <div style="font-size: 13px; color: var(--text-secondary); margin-top: 6px; padding-left: 12px; border-left: 2px solid var(--border);">
         <div style="margin-top: 4px;">• Updated ${s} core modules to latest stable version</div>
-        <div>• Fixed memory leak in data processing pipeline</div>
-        <div>• Improved error handling for edge cases</div>
+        <div>• ${fixes[0]}</div>
+        <div>• ${fixes[1]}</div>
         <div>• Security patches applied to authentication layer</div>
         <div>• Performance optimization: response time changed by ${p ? p.change_percent.toFixed(2) : '--'}%</div>
         <div>• Updated dependency: ${s}-utils to v${ver}</div>
@@ -348,23 +427,15 @@ function renderConfluenceReport(container) {
     </div>
     <div class="doc-section">
       <div class="doc-section-title">Completed This Sprint</div>
-      <p class="doc-text">• Migrated legacy authentication service to new identity provider. All existing user sessions preserved. Zero downtime during migration. Rollback plan tested and verified.</p>
-      <p class="doc-text">• Implemented caching layer for API responses. Reduced average response time by 40%. Cache hit rate currently at 85%. Memory usage within expected parameters.</p>
-      <p class="doc-text">• Updated data visualization library to latest version. All existing dashboards validated for backward compatibility. New chart types available for upcoming features.</p>
-      <p class="doc-text">• Resolved 15 production bugs including 2 critical severity issues. Average resolution time improved from 48 hours to 12 hours.</p>
+      <p class="doc-text">${randomPara(projectUpdates, 3)}</p>
     </div>
     <div class="doc-section">
       <div class="doc-section-title">Blockers & Risks</div>
-      <p class="doc-text">• Database migration script performance: The schema migration for the analytics module is taking longer than expected. Estimated completion: 2 additional days. Workaround: running migration during low-traffic window.</p>
-      <p class="doc-text">• Third-party API rate limit: The external data provider has reduced our API rate limit. Engineering team is negotiating an increase. Fallback: cached data will be used for up to 24 hours.</p>
-      <p class="doc-text">• SSL certificate renewal: Two certificates are expiring within the next 2 weeks. Renewal process has been initiated. No expected impact on production services.</p>
+      <p class="doc-text">${randomPara(riskFactors, 3)}</p>
     </div>
     <div class="doc-section">
       <div class="doc-section-title">Next Sprint Planning</div>
-      <p class="doc-text">• Priority 1: Complete database migration and deploy analytics dashboard v2</p>
-      <p class="doc-text">• Priority 2: Implement automated backup system for critical data stores</p>
-      <p class="doc-text">• Priority 3: Begin technical design for real-time notification service</p>
-      <p class="doc-text">• Priority 4: Conduct security audit of all external API integrations</p>
+      <p class="doc-text">${nextSprintItems.sort(() => Math.random() - 0.5).slice(0, 4).map((item, i) => `• Priority ${i + 1}: ${item}`).join('</p><p class="doc-text">')}</p>
     </div>
   `;
 }
