@@ -236,6 +236,79 @@ const companyNews = [
   'released its latest software update with significant performance improvements',
 ];
 
+const docTitles = [
+  'Competitive Analysis Report',
+  'Market Intelligence Report',
+  'Industry Research Summary',
+  'Strategic Market Overview',
+  'Sector Performance Review',
+  'Competitive Landscape Analysis',
+  'Quarterly Market Assessment',
+  'Industry Benchmark Report',
+];
+
+const sectionTitles = [
+  ['1. Market Overview', '2. Key Financial Insights', '3. Market Trends & Outlook', '4. Risk Factors'],
+  ['1. Executive Summary', '2. Financial Performance', '3. Competitive Positioning', '4. Market Risks'],
+  ['1. Industry Landscape', '2. Company Analysis', '3. Growth Drivers', '4. Risk Assessment'],
+  ['1. Sector Overview', '2. Revenue Analysis', '3. Strategic Initiatives', '4. Challenges & Opportunities'],
+  ['1. Market Dynamics', '2. Financial Highlights', '3. Competitive Strategy', '4. Risk Management'],
+  ['1. Industry Overview', '2. Business Performance', '3. Market Positioning', '4. Risk Factors'],
+  ['1. Market Assessment', '2. Financial Review', '3. Competitive Analysis', '4. Risk Outlook'],
+  ['1. Sector Analysis', '2. Performance Metrics', '3. Strategic Position', '4. Risk Considerations'],
+];
+
+const releaseTitles = [
+  'Release Notes · Changelog',
+  'Product Release Notes',
+  'Version Release Summary',
+  'Software Update Log',
+  'Release Changelog',
+  'Product Update Notes',
+  'Build Release Notes',
+  'Version History',
+];
+
+const sprintTitles = [
+  'Project Phoenix · Sprint Status Report',
+  'Sprint Progress Report',
+  'Project Status · Sprint Review',
+  'Development Sprint Summary',
+  'Agile Sprint Report',
+  'Engineering Sprint Status',
+  'Project Dashboard · Sprint',
+  'Sprint Performance Report',
+];
+
+const kpiHeaderOptions = [
+  ['KPI', 'Current Value', 'Change', 'Status'],
+  ['Metric', 'Value', 'Trend', 'Status'],
+  ['Indicator', 'Score', 'Direction', 'Health'],
+  ['Measure', 'Result', 'Delta', 'State'],
+];
+
+const terminalTitles = [
+  'Terminal · ssh admin@production-cluster-01',
+  'Terminal · ssh deploy@prod-server-01',
+  'Terminal · ssh ops@data-center-01',
+  'Terminal · ssh engineer@build-server-01',
+  'Terminal · ssh root@application-01',
+  'Terminal · ssh admin@staging-cluster-01',
+  'Terminal · ssh dev@backend-01',
+  'Terminal · ssh sysadmin@monitor-01',
+];
+
+const apiTitles = [
+  'API Response · GET /api/v2/services/status',
+  'API Response · GET /api/v1/system/health',
+  'API Response · GET /api/v2/metrics/overview',
+  'API Response · GET /api/v1/cluster/status',
+  'API Response · GET /api/v2/dashboard/summary',
+  'API Response · GET /api/v1/services/monitor',
+  'API Response · GET /api/v2/analytics/report',
+  'API Response · GET /api/v1/healthcheck/live',
+];
+
 const projectUpdates = [
   'Successfully deployed the new authentication service with zero downtime. User migration completed ahead of schedule.',
   'Completed the database schema migration for the analytics module. Performance improvements exceeded targets.',
@@ -277,6 +350,8 @@ const bugFixes = [
 
 function renderCompetitiveAnalysis(container) {
   const now = new Date().toISOString().split('T')[0];
+  const docTitle = pick(docTitles);
+  const sect = pick(sectionTitles);
   const items = settings.stocks.map((s, i) => {
     const p = prices[s];
     const val = p ? p.price.toFixed(2) : '---';
@@ -296,11 +371,11 @@ function renderCompetitiveAnalysis(container) {
   }).join('\n      </p><p class="doc-text">');
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title">Competitive Analysis Report</div>
+      <div class="doc-title">${docTitle}</div>
       <div class="doc-meta">Q3 2026 · Market Intelligence · Confidential · Generated: ${now}</div>
     </div>
     <div class="doc-section">
-      <div class="doc-section-title">1. Market Overview</div>
+      <div class="doc-section-title">${sect[0]}</div>
       <p class="doc-text">This report provides a comprehensive analysis of key market players in the technology sector. Data is compiled from the most recent quarterly filings, analyst reports, and real-time market data sources. All figures are in USD unless otherwise noted.</p>
       <p class="doc-text">${randomPara(marketTrends, 2)}</p>
       <table class="data-table" style="margin-top: 16px;">
@@ -319,16 +394,16 @@ function renderCompetitiveAnalysis(container) {
       <div class="last-updated" id="lastUpdated"></div>
     </div>
     <div class="doc-section">
-      <div class="doc-section-title">2. Key Financial Insights</div>
+      <div class="doc-section-title">${sect[1]}</div>
       <p class="doc-text">${filler}</p>
     </div>
     <div class="doc-section">
-      <div class="doc-section-title">3. Market Trends & Outlook</div>
+      <div class="doc-section-title">${sect[2]}</div>
       <p class="doc-text">The competitive landscape is evolving rapidly, with several key trends shaping the market:</p>
       <p class="doc-text">${randomPara(marketTrends)}</p>
     </div>
     <div class="doc-section">
-      <div class="doc-section-title">4. Risk Factors</div>
+      <div class="doc-section-title">${sect[3]}</div>
       <p class="doc-text">${randomPara(riskFactors)}</p>
     </div>
   `;
@@ -354,6 +429,7 @@ function renderStockRow(symbol) {
 function renderReleaseNotes(container) {
   const now = new Date();
   const dateStr = now.toISOString().split('T')[0];
+  const docTitle = pick(releaseTitles);
   const items = settings.stocks.map((s, i) => {
     const p = prices[s];
     const ver = p ? p.price.toFixed(2) : '---';
@@ -374,7 +450,7 @@ function renderReleaseNotes(container) {
   }).join('');
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title">Release Notes · Changelog</div>
+      <div class="doc-title">${docTitle}</div>
       <div class="doc-meta">Product Release · ${dateStr} · Published by Engineering Team</div>
     </div>
     <div class="doc-section">
@@ -413,7 +489,7 @@ function renderConfluenceReport(container) {
   }).join('');
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title">Project Phoenix · Sprint Status Report</div>
+      <div class="doc-title">${pick(sprintTitles)}</div>
       <div class="doc-meta">Sprint 24 · ${now} · Engineering Team · Confidential</div>
     </div>
     <div class="doc-section">
@@ -444,6 +520,7 @@ function renderTerminalLog(container) {
   const now = new Date();
   const dateStr = now.toISOString().split('T')[0];
   const timeStr = now.toLocaleTimeString();
+  const docTitle = pick(terminalTitles);
   const items = settings.stocks.map(s => {
     const p = prices[s];
     const val = p ? p.price.toFixed(2) : '---';
@@ -451,7 +528,7 @@ function renderTerminalLog(container) {
   }).join('\n');
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title">Terminal · ssh admin@production-cluster-01</div>
+      <div class="doc-title">${docTitle}</div>
       <div class="doc-meta" style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">Last login: ${dateStr} ${timeStr} from 10.0.0.1</div>
     </div>
     <div style="background: #0f172a; color: #22c55e; padding: 24px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.8;">
@@ -472,6 +549,7 @@ function renderTerminalLog(container) {
 }
 
 function renderJsonResponse(container) {
+  const docTitle = pick(apiTitles);
   const items = settings.stocks.map(s => {
     const p = prices[s];
     return {
@@ -501,7 +579,7 @@ function renderJsonResponse(container) {
   }, null, 2);
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title">API Response · GET /api/v2/services/status</div>
+      <div class="doc-title">${docTitle}</div>
       <div class="doc-meta" style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">HTTP/2 200 OK · Content-Type: application/json · Server: nginx/1.24</div>
     </div>
     <div style="background: #1e293b; color: #e2e8f0; padding: 24px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.6; white-space: pre-wrap; overflow-x: auto;">
