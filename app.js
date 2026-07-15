@@ -376,7 +376,7 @@ function renderTerminalLog(container) {
   const items = settings.stocks.map(s => {
     const p = prices[s];
     const val = p ? p.price.toFixed(2) : '---';
-    return `[${dateStr} ${timeStr}] ${s}: status=active uptime=${(Math.random() * 100).toFixed(0)}d load=${val} memory_used=${val}GB disk_io=${(Math.abs(p ? p.change : Math.random() * 10)).toFixed(2)}MB/s connections=${Math.floor(Math.abs(p ? p.price : Math.random() * 10000))}`;
+    return `[${dateStr} ${timeStr}] ${s}: status=active uptime=${(Math.random() * 100).toFixed(0)}d load=${(Math.random() * 100 + 10).toFixed(2)} memory_used=${(Math.random() * 500 + 100).toFixed(1)}GB disk_io=${(Math.random() * 100).toFixed(2)}MB/s connections=${Math.floor(Math.random() * 10000 + 1000)}`;
   }).join('\n');
   container.innerHTML = `
     <div class="doc-header">
@@ -408,11 +408,11 @@ function renderJsonResponse(container) {
       name: `${s} Inc.`,
       status: p ? 'operational' : 'pending',
       metrics: {
-        requests_per_sec: p ? p.price.toFixed(2) : null,
-        error_rate: p ? Math.abs(p.change_percent / 100).toFixed(4) : null,
-        avg_latency_ms: p ? Math.abs(p.price * 10).toFixed(1) : null,
+        requests_per_sec: p ? (Math.random() * 200 + 50).toFixed(2) : null,
+        error_rate: p ? (Math.random() * 0.01).toFixed(4) : null,
+        avg_latency_ms: p ? (Math.random() * 200 + 20).toFixed(1) : null,
         uptime: `${(99.9 + Math.random() * 0.09).toFixed(2)}%`,
-        total_requests: Math.floor(Math.abs(p ? p.price * 10000 : Math.random() * 100000)),
+        total_requests: Math.floor(Math.random() * 50000 + 5000),
       },
       lastChecked: new Date().toISOString(),
     };
