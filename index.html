@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Competitive Analysis Report — Q3 2026</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232563eb'/><text x='16' y='23' text-anchor='middle' fill='white' font-size='20' font-weight='bold'>R</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <div class="header-logo">R</div>
+        <span class="header-title">Research Hub</span>
+      </div>
+      <div class="header-actions">
+        <span class="status-bar" style="border: none; padding: 0;">
+          <span class="status-dot pending" id="statusDot"></span>
+          <span id="statusText">Updating...</span>
+        </span>
+        <button class="btn btn-icon" id="themeBtn" onclick="toggleTheme()">☀️</button>
+        <button class="btn" onclick="openSettings()">⚙️ Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="document" id="documentContent">
+      <!-- Content rendered by JS -->
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsOverlay">
+    <div class="modal">
+      <div class="modal-title" data-i18n="settings">Settings</div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="disguise">Disguise Style</label>
+        <div class="disguise-options">
+          <div class="disguise-option active" data-disguise="competitive" onclick="selectDisguise('competitive')">
+            📊 Competitive Analysis
+          </div>
+          <div class="disguise-option" data-disguise="release" onclick="selectDisguise('release')">
+            📝 Release Notes
+          </div>
+          <div class="disguise-option" data-disguise="confluence" onclick="selectDisguise('confluence')">
+            📋 Project Report
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="language">Language</label>
+        <select class="form-select" id="settingsLang">
+          <option value="en">English</option>
+          <option value="ko">한국어</option>
+          <option value="zh">简体中文</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="theme">Theme</label>
+        <select class="form-select" id="settingsTheme">
+          <option value="light">☀️ Light</option>
+          <option value="dark">🌙 Dark</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="stocks">Stocks</label>
+        <div class="stock-tags" id="stockTags"></div>
+        <div class="add-stock-row">
+          <input class="form-input" id="stockInput" placeholder="e.g. AAPL" style="text-transform: uppercase; flex: 1;">
+          <button class="btn btn-sm btn-primary" onclick="addStock()">+ Add</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="dataSource">Data Source</label>
+        <select class="form-select" id="settingsSource">
+          <option value="auto">Auto</option>
+          <option value="finnhub">Finnhub</option>
+          <option value="yahoo">Yahoo Finance</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="apiKey">API Key</label>
+        <input class="form-input" id="settingsApiKey" type="password" placeholder="Enter your API key">
+      </div>
+
+      <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 24px;">
+        <button class="btn" onclick="closeSettings()" data-i18n="close">Close</button>
+        <button class="btn btn-primary" onclick="saveSettingsForm()" data-i18n="save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
