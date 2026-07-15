@@ -185,6 +185,10 @@ function renderDisguise() {
     renderReleaseNotes(container);
   } else if (settings.disguise === 'confluence') {
     renderConfluenceReport(container);
+  } else if (settings.disguise === 'terminal') {
+    renderTerminalLog(container);
+  } else if (settings.disguise === 'json') {
+    renderJsonResponse(container);
   }
 }
 
@@ -299,6 +303,66 @@ function renderConfluenceReport(container) {
       <p class="doc-text">• Database migration in progress (estimated completion: next sprint)</p>
       <p class="doc-text">• API rate limit increase under review with engineering team</p>
       <p class="doc-text">• SSL certificate renewal scheduled for next maintenance window</p>
+    </div>
+  `;
+}
+
+function renderTerminalLog(container) {
+  const now = new Date().toISOString().split('T')[0];
+  const items = settings.stocks.map(s => {
+    const p = prices[s];
+    const val = p ? `$${p.price.toFixed(2)}` : '---';
+    const change = p ? `${p.change >= 0 ? '+' : ''}${p.change.toFixed(2)}` : '';
+    return `[${now} ${new Date().toLocaleTimeString()}] ${s} price=${val} change=${change}`;
+  }).join('\n');
+  container.innerHTML = `
+    <div class="doc-header">
+      <div class="doc-title">Terminal · ssh user@prod-server-01</div>
+      <div class="doc-meta" style="font-family: monospace; font-size: 12px;">Last login: ${now}</div>
+    </div>
+    <div style="background: #1a1a2e; color: #00ff88; padding: 24px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8;">
+      <div>$ systemctl status market-data</div>
+      <div>● market-data.service - Real-time Market Data Feed</div>
+      <div>   Loaded: loaded (/etc/systemd/system/market-data.service)</div>
+      <div>   Active: active (running)</div>
+      <div style="margin-top: 8px;">$ tail -f /var/log/market-data.log</div>
+      ${items.split('\n').map(line => `<div style="color: #00ff88;">${line}</div>`).join('\n')}
+      <div class="last-updated" id="lastUpdated" style="color: #00cc66; font-size: 11px; margin-top: 12px;"></div>
+    </div>
+  `;
+}
+
+function renderJsonResponse(container) {
+  const items = settings.stocks.map(s => {
+    const p = prices[s];
+    return {
+      symbol: s,
+      price: p ? p.price : null,
+      change: p ? p.change : null,
+      changePercent: p ? p.change_percent : null,
+      status: p ? 'active' : 'pending',
+    };
+  });
+  const json = JSON.stringify({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    endpoint: '/api/v2/market/data',
+    data: items,
+  }, null, 2);
+  container.innerHTML = `
+    <div class="doc-header">
+      <div class="doc-title">API Response · GET /api/v2/market/data</div>
+      <div class="doc-meta" style="font-family: monospace; font-size: 12px;">HTTP/2 200 OK · Content-Type: application/json</div>
+    </div>
+    <div style="background: #1e293b; color: #e2e8f0; padding: 24px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; overflow-x: auto;">
+      ${json.split('\n').map((line, i) => {
+        let color = '#e2e8f0';
+        if (line.includes('"status"')) color = '#22c55e';
+        if (line.includes('"price"') || line.includes('"change"')) color = '#60a5fa';
+        if (line.includes('"symbol"')) color = '#f59e0b';
+        return `<div style="color: ${color};">${line.replace(/ /g, '\u00a0')}</div>`;
+      }).join('\n')}
+      <div class="last-updated" id="lastUpdated" style="color: #94a3b8; font-size: 11px; margin-top: 12px;"></div>
     </div>
   `;
 }
