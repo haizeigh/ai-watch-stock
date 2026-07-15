@@ -326,10 +326,10 @@ function renderConfluenceReport(container) {
     const p = prices[s];
     const val = p ? p.price.toFixed(2) : '---';
     return `<tr>
-      <td class="ticker">${s}</td>
+      <td>${s}</td>
       <td>${val}</td>
       <td>${p ? Math.abs(p.change_percent).toFixed(2) : '---'}%</td>
-      <td>${p && p.change_percent > 0 ? '🟢 On track' : '🔴 Needs attention'}</td>
+      <td>${p ? 'On track' : 'Pending'}</td>
     </tr>`;
   }).join('');
   container.innerHTML = `
