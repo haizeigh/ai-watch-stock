@@ -635,6 +635,14 @@ function closeSettings() {
   document.getElementById('settingsOverlay').classList.remove('open');
 }
 
+function openHelp() {
+  document.getElementById('helpOverlay').classList.add('open');
+}
+
+function closeHelp() {
+  document.getElementById('helpOverlay').classList.remove('open');
+}
+
 function renderSettingsForm() {
   document.getElementById('settingsLang').value = settings.lang;
   document.getElementById('settingsTheme').value = settings.theme;

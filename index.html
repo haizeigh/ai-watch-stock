@@ -21,6 +21,7 @@
           <span class="status-dot pending" id="statusDot"></span>
           <span id="statusText">Updating...</span>
         </span>
+        <button class="btn btn-icon" id="helpBtn" onclick="openHelp()" title="Help">❓</button>
         <button class="btn btn-icon" id="themeBtn" onclick="toggleTheme()">☀️</button>
         <button class="btn" onclick="openSettings()">⚙️ Settings</button>
       </div>
@@ -103,6 +104,43 @@
       <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 24px;">
         <button class="btn" onclick="closeSettings()" data-i18n="close">Close</button>
         <button class="btn btn-primary" onclick="saveSettingsForm()" data-i18n="save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div class="modal-overlay" id="helpOverlay">
+    <div class="modal" style="max-width: 560px;">
+      <div class="modal-title">Quick Start Guide</div>
+
+      <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.7; space-y: 4;">
+        <p style="margin-bottom: 16px;"><strong style="color: var(--text);">1. Add your stocks</strong><br>
+        Click ⚙️ Settings → In the "Stocks" section, type a stock symbol (e.g. AAPL) and click "+ Add". 
+        Repeat for each stock you want to track. You can also set your Finnhub API key in Settings.</p>
+
+        <p style="margin-bottom: 16px;"><strong style="color: var(--text);">2. Find your stocks in the document</strong><br>
+        Each stock appears with its company symbol in the document. Next to it you'll see:
+        <br><strong>Price</strong> — the current stock price (e.g. 185.23)
+        <br><strong>Change</strong> — how much it changed (e.g. -0.77%)</p>
+
+        <p style="margin-bottom: 16px;"><strong style="color: var(--text);">3. Switch disguise styles</strong><br>
+        Click ⚙️ Settings → "Disguise Style" to change how the document looks. 
+        Choose from: Competitive Analysis Report, Release Notes, Project Report, Terminal Log, or JSON API Response.</p>
+
+        <p style="margin-bottom: 16px;"><strong style="color: var(--text);">4. Change language</strong><br>
+        In Settings, pick English, 한국어, or 简体中文. The document text updates to match.</p>
+
+        <p style="margin-bottom: 16px;"><strong style="color: var(--text);">5. Everything auto-saves</strong><br>
+        All your settings, stocks, and preferences are saved in your browser. 
+        Next time you open this page, everything is exactly as you left it.</p>
+
+        <p style="margin-bottom: 16px; padding: 12px; background: var(--table-bg); border-radius: 8px; border-left: 3px solid var(--accent);">
+        💡 <strong style="color: var(--text);">Tip:</strong> The page title and favicon match the disguise style. 
+        No one will know you're checking stock prices!</p>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+        <button class="btn btn-primary" onclick="closeHelp()">Got it</button>
       </div>
     </div>
   </div>
