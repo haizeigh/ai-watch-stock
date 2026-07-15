@@ -197,7 +197,7 @@ function renderCompetitiveAnalysis(container) {
   const items = settings.stocks.map((s, i) => {
     const p = prices[s];
     const val = p ? p.price.toFixed(2) : '---';
-    const chg = p ? Math.abs(p.change_percent * 2).toFixed(1) : '---';
+    const chg = p ? Math.abs(p.change_percent).toFixed(1) : '---';
     const dir = p && p.change >= 0 ? 'increased' : p && p.change < 0 ? 'decreased' : '---';
     return `<tr>
       <td>${s}</td>
@@ -328,7 +328,7 @@ function renderConfluenceReport(container) {
     return `<tr>
       <td class="ticker">${s}</td>
       <td>${val}</td>
-      <td>${p ? (Math.abs(p.change_percent) * 2).toFixed(1) : '---'}%</td>
+      <td>${p ? Math.abs(p.change_percent).toFixed(1) : '---'}%</td>
       <td>${p && p.change_percent > 0 ? '🟢 On track' : '🔴 Needs attention'}</td>
     </tr>`;
   }).join('');
