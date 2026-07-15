@@ -194,37 +194,64 @@ function renderDisguise() {
 
 function renderCompetitiveAnalysis(container) {
   const now = new Date().toISOString().split('T')[0];
+  const items = settings.stocks.map((s, i) => {
+    const p = prices[s];
+    const val = p ? p.price.toFixed(2) : '---';
+    const chg = p ? Math.abs(p.change_percent * 2).toFixed(1) : '---';
+    const dir = p && p.change >= 0 ? 'increased' : p && p.change < 0 ? 'decreased' : '---';
+    return `<tr>
+      <td>${s}</td>
+      <td>${val}</td>
+      <td>${chg}%</td>
+      <td>${dir}</td>
+    </tr>`;
+  }).join('');
+  const filler = settings.stocks.map(s => {
+    const p = prices[s];
+    const val = p ? p.price.toFixed(2) : '---';
+    return `• ${s}: Revenue reached ${val}B in Q2, representing a ${p ? Math.abs(p.change_percent).toFixed(1) : '--'}% ${p && p.change >= 0 ? 'increase' : 'decrease'} year-over-year. Market share expanded by ${p ? (Math.abs(p.change_percent) * 0.5).toFixed(1) : '--'}% in the North American region, driven by strong demand in the enterprise segment. Operating margins improved by ${p ? (Math.abs(p.change_percent) * 0.3).toFixed(1) : '--'}% compared to the previous quarter, reflecting successful cost optimization initiatives. The company continues to invest in R&D, with ${p ? (Math.abs(p.change_percent) * 0.8).toFixed(1) : '--'}% of revenue allocated to new product development.`;
+  }).join('\n      </p><p class="doc-text">');
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title" data-i18n="title">${t('title')}</div>
-      <div class="doc-meta">${t('subtitle')} · Generated: ${now}</div>
+      <div class="doc-title">Competitive Analysis Report</div>
+      <div class="doc-meta">Q3 2026 · Market Intelligence · Confidential · Generated: ${now}</div>
     </div>
     <div class="doc-section">
-      <div class="doc-section-title" data-i18n="section1">${t('section1')}</div>
-      <p class="doc-text">The following table presents a comparative analysis of key market players. Data reflects the most recent quarterly filings and real-time market data.</p>
-    </div>
-    <div class="doc-section">
-      <table class="data-table">
+      <div class="doc-section-title">1. Market Overview</div>
+      <p class="doc-text">This report provides a comprehensive analysis of key market players in the technology sector. Data is compiled from the most recent quarterly filings, analyst reports, and real-time market data sources. All figures are in USD unless otherwise noted.</p>
+      <p class="doc-text">The global technology market continues to show resilience despite macroeconomic headwinds. Enterprise software spending remains robust, driven by digital transformation initiatives across industries. Cloud infrastructure services continue to be the primary growth driver, with artificial intelligence and machine learning capabilities becoming increasingly critical to competitive differentiation.</p>
+      <table class="data-table" style="margin-top: 16px;">
         <thead>
           <tr>
-            <th data-i18n="colCompany">${t('colCompany')}</th>
-            <th data-i18n="colPrice">${t('colPrice')}</th>
-            <th data-i18n="colRevenue">${t('colRevenue')}</th>
-            <th data-i18n="colGrowth">${t('colGrowth')}</th>
+            <th>Company</th>
+            <th>Revenue (B)</th>
+            <th>Growth</th>
+            <th>Trend</th>
           </tr>
         </thead>
-        <tbody id="priceTableBody">
-          ${settings.stocks.map(s => renderStockRow(s)).join('')}
+        <tbody>
+          ${items}
         </tbody>
       </table>
       <div class="last-updated" id="lastUpdated"></div>
     </div>
     <div class="doc-section">
-      <div class="doc-section-title" data-i18n="section2">${t('section2')}</div>
-      <p class="doc-text">• AAPL: ${t('insight1')}</p>
-      <p class="doc-text">• MSFT: ${t('insight2')}</p>
-      <p class="doc-text">• GOOGL: ${t('insight3')}</p>
-      <p class="doc-text">• AMZN: ${t('insight4')}</p>
+      <div class="doc-section-title">2. Key Financial Insights</div>
+      <p class="doc-text">${filler}</p>
+    </div>
+    <div class="doc-section">
+      <div class="doc-section-title">3. Market Trends & Outlook</div>
+      <p class="doc-text">The competitive landscape is evolving rapidly, with several key trends shaping the market:</p>
+      <p class="doc-text">• Artificial Intelligence Integration: Major technology companies are embedding AI capabilities across their product portfolios. Generative AI has emerged as a key differentiator, with enterprise adoption accelerating faster than previous technology cycles. Companies that successfully integrate AI into existing workflows are seeing significant competitive advantages.</p>
+      <p class="doc-text">• Cloud Migration Acceleration: The shift to cloud computing continues to gain momentum, with hybrid and multi-cloud strategies becoming the norm. Enterprise customers are increasingly prioritizing cloud-native solutions that offer scalability, flexibility, and reduced total cost of ownership.</p>
+      <p class="doc-text">• Cybersecurity Investment: Rising threat complexity and regulatory requirements are driving increased cybersecurity spending. Organizations are allocating larger portions of their IT budgets to security solutions, creating opportunities for vendors with comprehensive security portfolios.</p>
+      <p class="doc-text">• Sustainability Initiatives: Environmental, social, and governance (ESG) considerations are becoming important factors in technology procurement decisions. Companies with strong sustainability credentials and transparent reporting are gaining preference among enterprise buyers.</p>
+    </div>
+    <div class="doc-section">
+      <div class="doc-section-title">4. Risk Factors</div>
+      <p class="doc-text">• Regulatory Changes: Evolving data protection regulations and antitrust scrutiny could impact business models and operating practices. Companies with significant market power face increased regulatory attention.</p>
+      <p class="doc-text">• Supply Chain Disruptions: Geopolitical tensions and component shortages continue to pose risks to hardware-dependent businesses. Semiconductor supply constraints could affect product availability and pricing.</p>
+      <p class="doc-text">• Talent Competition: The demand for skilled technology professionals, particularly in AI and cybersecurity, remains intense. Companies that fail to attract and retain top talent may struggle to maintain their competitive position.</p>
     </div>
   `;
 }
@@ -254,21 +281,41 @@ function renderReleaseNotes(container) {
     const ver = p ? p.price.toFixed(2) : '---';
     const d = new Date(now);
     d.setDate(d.getDate() - i);
-    return `<div style="margin-bottom: 20px;">
-      <div style="font-size: 15px; font-weight: 600; color: var(--accent);">Version ${ver} — ${d.toISOString().split('T')[0]}</div>
-      <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">• Updated ${s} core dependencies for security patches</div>
-      <div style="font-size: 13px; color: var(--text-secondary);">• Fixed critical issue in data pipeline</div>
+    return `<div style="margin-bottom: 24px;">
+      <div style="font-size: 15px; font-weight: 600; color: var(--accent);">v${ver} (Build ${d.toISOString().split('T')[0]})</div>
+      <div style="font-size: 13px; color: var(--text-secondary); margin-top: 6px; padding-left: 12px; border-left: 2px solid var(--border);">
+        <div style="margin-top: 4px;">• Updated ${s} core modules to latest stable version</div>
+        <div>• Fixed memory leak in data processing pipeline</div>
+        <div>• Improved error handling for edge cases</div>
+        <div>• Security patches applied to authentication layer</div>
+        <div>• Performance optimization for large dataset operations</div>
+        <div>• Updated dependency: ${s}-utils to v${ver}</div>
+      </div>
     </div>`;
   }).join('');
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title">Changelog · Release Notes</div>
-      <div class="doc-meta">Product · ${dateStr}</div>
+      <div class="doc-title">Release Notes · Changelog</div>
+      <div class="doc-meta">Product Release · ${dateStr} · Published by Engineering Team</div>
     </div>
     <div class="doc-section">
-      <div class="doc-section-title">Latest Versions</div>
+      <div class="doc-section-title">Latest Releases</div>
+      <p class="doc-text">This document provides a summary of recent product releases, including new features, bug fixes, performance improvements, and security updates. Each release is tagged with a version number and build date for traceability.</p>
       ${items}
       <div class="last-updated" id="lastUpdated"></div>
+    </div>
+    <div class="doc-section">
+      <div class="doc-section-title">Known Issues</div>
+      <p class="doc-text">• Minor UI rendering issue in Safari browser when using dark mode. Workaround: switch to light mode temporarily. Fix scheduled for next release.</p>
+      <p class="doc-text">• Export functionality may timeout for datasets exceeding 100K records. Recommended to split large exports into smaller batches. Engineering team is investigating optimization options.</p>
+      <p class="doc-text">• Legacy API v1 endpoints will be deprecated on December 31, 2026. Please migrate to API v2. See migration guide in documentation.</p>
+    </div>
+    <div class="doc-section">
+      <div class="doc-section-title">Upcoming Features</div>
+      <p class="doc-text">• Real-time collaboration mode (Q4 2026)</p>
+      <p class="doc-text">• Advanced analytics dashboard with custom reporting (Q4 2026)</p>
+      <p class="doc-text">• Mobile application with offline support (Q1 2027)</p>
+      <p class="doc-text">• Third-party integration marketplace (Q1 2027)</p>
     </div>
   `;
 }
@@ -281,53 +328,74 @@ function renderConfluenceReport(container) {
     return `<tr>
       <td class="ticker">${s}</td>
       <td>${val}</td>
-      <td>${p ? (p.change_percent * 2).toFixed(1) : '---'}%</td>
-      <td>${p && p.change_percent > 0 ? '✅ On track' : '⚠️ Needs attention'}</td>
+      <td>${p ? (Math.abs(p.change_percent) * 2).toFixed(1) : '---'}%</td>
+      <td>${p && p.change_percent > 0 ? '🟢 On track' : '🔴 Needs attention'}</td>
     </tr>`;
   }).join('');
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title">Project Phoenix · Status Report</div>
-      <div class="doc-meta">Sprint 24 · ${now} · Confidential</div>
+      <div class="doc-title">Project Phoenix · Sprint Status Report</div>
+      <div class="doc-meta">Sprint 24 · ${now} · Engineering Team · Confidential</div>
     </div>
     <div class="doc-section">
-      <div class="doc-section-title">Key Metrics</div>
-      <table class="data-table">
-        <thead><tr><th>KPI</th><th>Value</th><th>Change</th><th>Status</th></tr></thead>
+      <div class="doc-section-title">Sprint Overview</div>
+      <p class="doc-text">Sprint 24 is progressing according to plan. The team has completed 12 out of 18 story points, with 6 remaining in the backlog. Velocity remains stable at an average of 16 points per sprint. No critical blockers have been identified. The following sections provide a detailed breakdown of key metrics, accomplishments, and risks.</p>
+      <table class="data-table" style="margin-top: 16px;">
+        <thead><tr><th>KPI</th><th>Current Value</th><th>Change</th><th>Status</th></tr></thead>
         <tbody>${items}</tbody>
       </table>
       <div class="last-updated" id="lastUpdated"></div>
     </div>
     <div class="doc-section">
-      <div class="doc-section-title">Blockers</div>
-      <p class="doc-text">• Database migration in progress (estimated completion: next sprint)</p>
-      <p class="doc-text">• API rate limit increase under review with engineering team</p>
-      <p class="doc-text">• SSL certificate renewal scheduled for next maintenance window</p>
+      <div class="doc-section-title">Completed This Sprint</div>
+      <p class="doc-text">• Migrated legacy authentication service to new identity provider. All existing user sessions preserved. Zero downtime during migration. Rollback plan tested and verified.</p>
+      <p class="doc-text">• Implemented caching layer for API responses. Reduced average response time by 40%. Cache hit rate currently at 85%. Memory usage within expected parameters.</p>
+      <p class="doc-text">• Updated data visualization library to latest version. All existing dashboards validated for backward compatibility. New chart types available for upcoming features.</p>
+      <p class="doc-text">• Resolved 15 production bugs including 2 critical severity issues. Average resolution time improved from 48 hours to 12 hours.</p>
+    </div>
+    <div class="doc-section">
+      <div class="doc-section-title">Blockers & Risks</div>
+      <p class="doc-text">• Database migration script performance: The schema migration for the analytics module is taking longer than expected. Estimated completion: 2 additional days. Workaround: running migration during low-traffic window.</p>
+      <p class="doc-text">• Third-party API rate limit: The external data provider has reduced our API rate limit. Engineering team is negotiating an increase. Fallback: cached data will be used for up to 24 hours.</p>
+      <p class="doc-text">• SSL certificate renewal: Two certificates are expiring within the next 2 weeks. Renewal process has been initiated. No expected impact on production services.</p>
+    </div>
+    <div class="doc-section">
+      <div class="doc-section-title">Next Sprint Planning</div>
+      <p class="doc-text">• Priority 1: Complete database migration and deploy analytics dashboard v2</p>
+      <p class="doc-text">• Priority 2: Implement automated backup system for critical data stores</p>
+      <p class="doc-text">• Priority 3: Begin technical design for real-time notification service</p>
+      <p class="doc-text">• Priority 4: Conduct security audit of all external API integrations</p>
     </div>
   `;
 }
 
 function renderTerminalLog(container) {
-  const now = new Date().toISOString().split('T')[0];
+  const now = new Date();
+  const dateStr = now.toISOString().split('T')[0];
+  const timeStr = now.toLocaleTimeString();
   const items = settings.stocks.map(s => {
     const p = prices[s];
-    const val = p ? `$${p.price.toFixed(2)}` : '---';
-    const change = p ? `${p.change >= 0 ? '+' : ''}${p.change.toFixed(2)}` : '';
-    return `[${now} ${new Date().toLocaleTimeString()}] ${s} price=${val} change=${change}`;
+    const val = p ? p.price.toFixed(2) : '---';
+    return `[${dateStr} ${timeStr}] ${s}: status=active uptime=${(Math.random() * 100).toFixed(0)}d load=${val} memory_used=${val}GB disk_io=${(Math.abs(p ? p.change : Math.random() * 10)).toFixed(2)}MB/s connections=${Math.floor(Math.abs(p ? p.price : Math.random() * 10000))}`;
   }).join('\n');
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title">Terminal · ssh user@prod-server-01</div>
-      <div class="doc-meta" style="font-family: monospace; font-size: 12px;">Last login: ${now}</div>
+      <div class="doc-title">Terminal · ssh admin@production-cluster-01</div>
+      <div class="doc-meta" style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">Last login: ${dateStr} ${timeStr} from 10.0.0.1</div>
     </div>
-    <div style="background: #1a1a2e; color: #00ff88; padding: 24px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8;">
-      <div>$ systemctl status market-data</div>
-      <div>● market-data.service - Real-time Market Data Feed</div>
-      <div>   Loaded: loaded (/etc/systemd/system/market-data.service)</div>
-      <div>   Active: active (running)</div>
-      <div style="margin-top: 8px;">$ tail -f /var/log/market-data.log</div>
-      ${items.split('\n').map(line => `<div style="color: #00ff88;">${line}</div>`).join('\n')}
-      <div class="last-updated" id="lastUpdated" style="color: #00cc66; font-size: 11px; margin-top: 12px;"></div>
+    <div style="background: #0f172a; color: #22c55e; padding: 24px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.8;">
+      <div style="color: #94a3b8;">$ systemctl status cluster-monitor</div>
+      <div>● cluster-monitor.service - Production Cluster Monitoring Service</div>
+      <div>   Loaded: loaded (/etc/systemd/system/cluster-monitor.service; enabled; vendor preset: enabled)</div>
+      <div>   Active: active (running) since ${dateStr}</div>
+      <div>     Docs: https://docs.internal/cluster-monitor</div>
+      <div>   Main PID: ${Math.floor(Math.random() * 99999 + 10000)} (node)</div>
+      <div>    Memory: ${(Math.random() * 500 + 100).toFixed(0)}.${Math.floor(Math.random() * 9)}M</div>
+      <div>      CPU: ${(Math.random() * 30 + 10).toFixed(1)}%</div>
+      <div style="margin-top: 12px; color: #94a3b8;">$ tail -f /var/log/cluster-monitor/current.log</div>
+      ${items.split('\n').map(line => `<div style="color: #22c55e;">${line}</div>`).join('\n')}
+      <div style="margin-top: 12px; color: #94a3b8;">$ █</div>
+      <div class="last-updated" id="lastUpdated" style="color: #4ade80; font-size: 11px; margin-top: 12px;"></div>
     </div>
   `;
 }
@@ -336,30 +404,45 @@ function renderJsonResponse(container) {
   const items = settings.stocks.map(s => {
     const p = prices[s];
     return {
-      symbol: s,
-      price: p ? p.price : null,
-      change: p ? p.change : null,
-      changePercent: p ? p.change_percent : null,
-      status: p ? 'active' : 'pending',
+      id: s.toLowerCase(),
+      name: `${s} Inc.`,
+      status: p ? 'operational' : 'pending',
+      metrics: {
+        requests_per_sec: p ? p.price.toFixed(2) : null,
+        error_rate: p ? Math.abs(p.change_percent / 100).toFixed(4) : null,
+        avg_latency_ms: p ? Math.abs(p.price * 10).toFixed(1) : null,
+        uptime: `${(99.9 + Math.random() * 0.09).toFixed(2)}%`,
+        total_requests: Math.floor(Math.abs(p ? p.price * 10000 : Math.random() * 100000)),
+      },
+      lastChecked: new Date().toISOString(),
     };
   });
   const json = JSON.stringify({
-    status: 'ok',
+    success: true,
     timestamp: new Date().toISOString(),
-    endpoint: '/api/v2/market/data',
+    endpoint: '/api/v2/services/status',
+    count: items.length,
     data: items,
+    _metadata: {
+      version: '2.4.1',
+      responseTime: `${(Math.random() * 100 + 20).toFixed(0)}ms`,
+      cache: 'HIT',
+    },
   }, null, 2);
   container.innerHTML = `
     <div class="doc-header">
-      <div class="doc-title">API Response · GET /api/v2/market/data</div>
-      <div class="doc-meta" style="font-family: monospace; font-size: 12px;">HTTP/2 200 OK · Content-Type: application/json</div>
+      <div class="doc-title">API Response · GET /api/v2/services/status</div>
+      <div class="doc-meta" style="font-family: monospace; font-size: 11px; color: var(--text-secondary);">HTTP/2 200 OK · Content-Type: application/json · Server: nginx/1.24</div>
     </div>
-    <div style="background: #1e293b; color: #e2e8f0; padding: 24px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; overflow-x: auto;">
+    <div style="background: #1e293b; color: #e2e8f0; padding: 24px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.6; white-space: pre-wrap; overflow-x: auto;">
       ${json.split('\n').map((line, i) => {
         let color = '#e2e8f0';
-        if (line.includes('"status"')) color = '#22c55e';
-        if (line.includes('"price"') || line.includes('"change"')) color = '#60a5fa';
-        if (line.includes('"symbol"')) color = '#f59e0b';
+        if (line.includes('"success"')) color = '#22c55e';
+        if (line.includes('"error"')) color = '#ef4444';
+        if (line.includes('"id"') || line.includes('"name"')) color = '#f59e0b';
+        if (line.includes('"status"')) color = '#60a5fa';
+        if (line.includes('"metrics"')) color = '#a78bfa';
+        if (line.includes('"uptime"') || line.includes('99.')) color = '#4ade80';
         return `<div style="color: ${color};">${line.replace(/ /g, '\u00a0')}</div>`;
       }).join('\n')}
       <div class="last-updated" id="lastUpdated" style="color: #94a3b8; font-size: 11px; margin-top: 12px;"></div>
