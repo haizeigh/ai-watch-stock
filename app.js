@@ -408,9 +408,8 @@ function renderJsonResponse(container) {
       name: `${s} Inc.`,
       status: p ? 'operational' : 'pending',
       metrics: {
-        requests_per_sec: p ? (Math.random() * 200 + 50).toFixed(2) : null,
-        error_rate: p ? (Math.random() * 0.01).toFixed(4) : null,
-        avg_latency_ms: p ? (Math.random() * 200 + 20).toFixed(1) : null,
+        throughput: p ? p.price.toFixed(2) : null,
+        throughput_change: p ? p.change_percent.toFixed(2) : null,
         uptime: `${(99.9 + Math.random() * 0.09).toFixed(2)}%`,
         total_requests: Math.floor(Math.random() * 50000 + 5000),
       },
