@@ -22,7 +22,6 @@
           <span id="statusText">Updating...</span>
         </span>
         <button class="btn btn-icon" id="helpBtn" onclick="openHelp()" title="Help">❓</button>
-        <button class="btn btn-icon" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeG55jJDvpv4GzMDgxs8oLVXiW0q3CiqoSFkA2PGkpkrO1f2Q/viewform', '_blank')" title="Feedback">💬</button>
         <button class="btn btn-icon" id="themeBtn" onclick="toggleTheme()">☀️</button>
         <button class="btn" onclick="openSettings()">⚙️ Settings</button>
       </div>
@@ -147,5 +146,19 @@
   </div>
 
   <script src="app.js"></script>
+  <!-- Floating Feedback button -->
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSeG55jJDvpv4GzMDgxs8oLVXiW0q3CiqoSFkA2PGkpkrO1f2Q/viewform"
+     target="_blank" rel="noopener noreferrer"
+     style="position: fixed; bottom: 24px; right: 24px; z-index: 999;
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 20px; border-radius: 12px;
+            background: var(--accent); color: white;
+            font-size: 14px; font-weight: 500; text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.2s;"
+     onmouseover="this.style.transform='scale(1.05)'"
+     onmouseout="this.style.transform='scale(1)'">
+    💬 Feedback
+  </a>
 </body>
 </html>
