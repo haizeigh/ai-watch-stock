@@ -197,7 +197,7 @@ function renderCompetitiveAnalysis(container) {
   const items = settings.stocks.map((s, i) => {
     const p = prices[s];
     const val = p ? p.price.toFixed(2) : '---';
-    const chg = p ? Math.abs(p.change_percent).toFixed(1) : '---';
+    const chg = p ? Math.abs(p.change_percent).toFixed(2) : '---';
     const dir = p && p.change >= 0 ? 'increased' : p && p.change < 0 ? 'decreased' : '---';
     return `<tr>
       <td>${s}</td>
@@ -209,7 +209,7 @@ function renderCompetitiveAnalysis(container) {
   const filler = settings.stocks.map(s => {
     const p = prices[s];
     const val = p ? p.price.toFixed(2) : '---';
-    return `• ${s}: Revenue reached ${val}B in Q2, representing a ${p ? Math.abs(p.change_percent).toFixed(1) : '--'}% ${p && p.change >= 0 ? 'increase' : 'decrease'} year-over-year. Market share expanded by ${p ? (Math.abs(p.change_percent) * 0.5).toFixed(1) : '--'}% in the North American region, driven by strong demand in the enterprise segment. Operating margins improved by ${p ? (Math.abs(p.change_percent) * 0.3).toFixed(1) : '--'}% compared to the previous quarter, reflecting successful cost optimization initiatives. The company continues to invest in R&D, with ${p ? (Math.abs(p.change_percent) * 0.8).toFixed(1) : '--'}% of revenue allocated to new product development.`;
+    return `• ${s}: Revenue reached ${val}B in Q2, representing a ${p ? Math.abs(p.change_percent).toFixed(2) : '--'}% ${p && p.change >= 0 ? 'increase' : 'decrease'} year-over-year. Market share expanded by ${p ? (Math.abs(p.change_percent) * 0.5).toFixed(2) : '--'}% in the North American region, driven by strong demand in the enterprise segment. Operating margins improved by ${p ? (Math.abs(p.change_percent) * 0.3).toFixed(2) : '--'}% compared to the previous quarter, reflecting successful cost optimization initiatives. The company continues to invest in R&D, with ${p ? (Math.abs(p.change_percent) * 0.8).toFixed(2) : '--'}% of revenue allocated to new product development.`;
   }).join('\n      </p><p class="doc-text">');
   container.innerHTML = `
     <div class="doc-header">
@@ -288,7 +288,7 @@ function renderReleaseNotes(container) {
         <div>• Fixed memory leak in data processing pipeline</div>
         <div>• Improved error handling for edge cases</div>
         <div>• Security patches applied to authentication layer</div>
-        <div>• Performance optimization: response time improved by ${p ? Math.abs(p.change_percent).toFixed(1) : '--'}%</div>
+        <div>• Performance optimization: response time improved by ${p ? Math.abs(p.change_percent).toFixed(2) : '--'}%</div>
         <div>• Updated dependency: ${s}-utils to v${ver}</div>
       </div>
     </div>`;
@@ -328,7 +328,7 @@ function renderConfluenceReport(container) {
     return `<tr>
       <td class="ticker">${s}</td>
       <td>${val}</td>
-      <td>${p ? Math.abs(p.change_percent).toFixed(1) : '---'}%</td>
+      <td>${p ? Math.abs(p.change_percent).toFixed(2) : '---'}%</td>
       <td>${p && p.change_percent > 0 ? '🟢 On track' : '🔴 Needs attention'}</td>
     </tr>`;
   }).join('');
