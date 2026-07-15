@@ -288,7 +288,7 @@ function renderReleaseNotes(container) {
         <div>• Fixed memory leak in data processing pipeline</div>
         <div>• Improved error handling for edge cases</div>
         <div>• Security patches applied to authentication layer</div>
-        <div>• Performance optimization: response time improved by ${p ? Math.abs(p.change_percent).toFixed(2) : '--'}%</div>
+        <div>• Performance optimization: response time changed by ${p ? p.change_percent.toFixed(2) : '--'}%</div>
         <div>• Updated dependency: ${s}-utils to v${ver}</div>
       </div>
     </div>`;
