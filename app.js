@@ -376,7 +376,7 @@ function renderTerminalLog(container) {
   const items = settings.stocks.map(s => {
     const p = prices[s];
     const val = p ? p.price.toFixed(2) : '---';
-    return `[${dateStr} ${timeStr}] ${s}: status=active uptime=${(Math.random() * 100).toFixed(0)}d load=${(Math.random() * 100 + 10).toFixed(2)} memory_used=${(Math.random() * 500 + 100).toFixed(1)}GB disk_io=${(Math.random() * 100).toFixed(2)}MB/s latency_change=${p ? p.change_percent.toFixed(2) : '0.00'}% connections=${Math.floor(Math.random() * 10000 + 1000)}`;
+    return `[${dateStr} ${timeStr}] ${s}: status=active uptime=${(Math.random() * 100).toFixed(0)}d packet_rate=${p ? p.price.toFixed(2) : '---'} memory_used=${(Math.random() * 500 + 100).toFixed(1)}GB disk_io=${(Math.random() * 100).toFixed(2)}MB/s latency_change=${p ? p.change_percent.toFixed(2) : '0.00'}% connections=${Math.floor(Math.random() * 10000 + 1000)}`;
   }).join('\n');
   container.innerHTML = `
     <div class="doc-header">
